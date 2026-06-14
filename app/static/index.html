@@ -3,31 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>War Thunder Air Compare</title>
+    <title>Air Compare — RB Threat Assessment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;500;600;700;800&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>War Thunder Air Compare</h1>
-        <p class="tagline">Realistic Battles dogfight check</p>
+    <div class="scanlines" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <header class="hud-header">
+        <div class="brand">
+            <svg class="brand__mark" viewBox="0 0 64 64" aria-hidden="true">
+                <path d="M32 4 L36 26 L60 38 L60 44 L36 38 L36 52 L44 58 L44 61 L32 56 L20 61 L20 58 L28 52 L28 38 L4 44 L4 38 L28 26 Z"/>
+            </svg>
+            <div class="brand__text">
+                <h1>AIR&nbsp;COMPARE</h1>
+                <p class="tagline">Realistic Battles · Dogfight Threat Assessment</p>
+            </div>
+        </div>
+        <div class="hud-header__status" id="status-line">
+            <span class="dot"></span><span id="status-text">SYSTEM ONLINE</span>
+        </div>
     </header>
 
     <main>
-        <section class="panel" id="settings">
-            <label for="my-aircraft">Your aircraft</label>
-            <div class="autocomplete">
-                <input type="text" id="my-aircraft" placeholder="e.g. Lightning F.6"
-                       autocomplete="off">
+        <section class="panel panel--ownship" id="ownship" style="--delay:.05s">
+            <div class="panel__tag">01 · Your Aircraft</div>
+            <div class="autocomplete" id="my-field">
+                <input type="text" id="my-aircraft" placeholder="Designate your aircraft…"
+                       autocomplete="off" spellcheck="false">
                 <ul class="suggestions" id="my-suggestions" hidden></ul>
             </div>
-            <p class="saved" id="my-saved"></p>
+            <div class="ownship-card" id="ownship-card" hidden>
+                <div class="ownship-card__img">
+                    <img id="ownship-img" alt="" loading="lazy">
+                </div>
+                <div class="ownship-card__meta">
+                    <div class="ownship-card__name" id="ownship-name"></div>
+                    <div class="ownship-card__sub" id="ownship-sub"></div>
+                </div>
+                <button type="button" class="btn-clear" id="clear-btn" title="Clear saved aircraft">
+                    <span>CLEAR</span>
+                </button>
+            </div>
         </section>
 
-        <section class="panel" id="lookup">
-            <label for="target-aircraft">Aircraft you've encountered</label>
+        <section class="panel panel--contact" id="lookup" style="--delay:.12s">
+            <div class="panel__tag">02 · Target</div>
             <div class="autocomplete">
                 <input type="text" id="target-aircraft"
-                       placeholder="Type a name and press Enter" autocomplete="off">
+                       placeholder="Identify contact — type a name, press Enter"
+                       autocomplete="off" spellcheck="false">
                 <ul class="suggestions" id="target-suggestions" hidden></ul>
             </div>
         </section>
@@ -37,7 +65,7 @@
     </main>
 
     <footer>
-        <p>Stats sourced from the War Thunder wiki. Realistic Battles values only.</p>
+        <p>Telemetry sourced from the War Thunder wiki · Realistic Battles values only</p>
     </footer>
 
     <script src="main.js"></script>

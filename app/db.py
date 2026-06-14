@@ -31,7 +31,7 @@ def search(term, limit=20):
     like = f"%{term}%"
     prefix = f"{term}%"
     rows = _query(
-        "SELECT slug, name, nation, rank, br_rb FROM aircraft "
+        "SELECT slug, name, image_url, nation, rank, br_rb FROM aircraft "
         "WHERE name LIKE ? "
         "ORDER BY CASE WHEN name LIKE ? THEN 0 ELSE 1 END, length(name), name "
         "LIMIT ?",

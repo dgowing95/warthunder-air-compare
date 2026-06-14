@@ -92,6 +92,7 @@ def _summary(row):
     return {
         "slug": row.get("slug"),
         "name": row.get("name"),
+        "image_url": row.get("image_url"),
         "nation": row.get("nation"),
         "rank": row.get("rank"),
         "br_rb": row.get("br_rb"),

@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS aircraft (
     slug                TEXT PRIMARY KEY,
     name                TEXT NOT NULL,
+    image_url           TEXT,
     nation              TEXT,
     rank                TEXT,
     br_rb               REAL,

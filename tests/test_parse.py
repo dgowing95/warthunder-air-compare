@@ -13,6 +13,9 @@ def _parse(slug):
 def test_lightning_f6():
     record = _parse("lightning_f6")
     assert record["name"] == "Lightning F.6"
+    assert record["image_url"] == (
+        "https://static.encyclopedia.warthunder.com/images/lightning_f6.png"
+    )
     assert record["nation"] == "britain"
     assert record["rank"] == "VI"
     assert record["br_rb"] == 9.3
@@ -32,6 +35,9 @@ def test_lightning_f6():
 def test_f111c():
     record = _parse("f_111c_raaf")
     assert record["name"] == "F-111C"
+    assert record["image_url"] == (
+        "https://static.encyclopedia.warthunder.com/images/f_111c_raaf.png"
+    )
     assert record["nation"] == "australia"
     assert record["rank"] == "VII"
     assert record["br_rb"] == 11.7

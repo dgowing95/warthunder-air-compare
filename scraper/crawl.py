@@ -36,7 +36,7 @@ _UNIT_LINK = re.compile(r"/unit/([a-z0-9_\-.]+)")
 _SCHEMA = os.path.join(os.path.dirname(__file__), "schema.sql")
 
 _COLUMNS = [
-    "slug", "name", "nation", "rank", "br_rb",
+    "slug", "name", "image_url", "nation", "rank", "br_rb",
     "max_speed_min", "max_speed_max", "max_speed_alt",
     "turn_time_min", "turn_time_max",
     "climb_rate_min", "climb_rate_max",

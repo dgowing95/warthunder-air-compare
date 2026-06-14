@@ -83,6 +83,13 @@ def _nation(soup):
     return None
 
 
+def _image_url(soup):
+    image = soup.select_one("img.game-unit_template-image")
+    if image and image.get("src"):
+        return image["src"].strip()
+    return None
+
+
 def _battle_rating_rb(soup):
     for item in soup.select(".game-unit_br-item"):
         mode = item.select_one(".mode")
@@ -143,6 +150,7 @@ def parse_unit(html, slug):
     record = {
         "slug": slug,
         "name": _clean(name_el.get_text(strip=True)) if name_el else slug,
+        "image_url": _image_url(soup),
         "nation": _nation(soup),
         "rank": None,
         "br_rb": _battle_rating_rb(soup),
