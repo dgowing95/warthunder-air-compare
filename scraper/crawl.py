@@ -63,7 +63,18 @@ def connect():
 def init_db(conn):
     with open(_SCHEMA, encoding="utf-8") as handle:
         conn.executescript(handle.read())
+    _migrate(conn)
     conn.commit()
+
+
+def _migrate(conn):
+    """Bring an existing database up to the current schema.
+
+    schema.sql only creates tables when absent, so columns added later must be
+    applied to databases that predate them."""
+    existing = {row[1] for row in conn.execute("PRAGMA table_info(aircraft)")}
+    if "image_url" not in existing:
+        conn.execute("ALTER TABLE aircraft ADD COLUMN image_url TEXT")
 
 
 def _session():
