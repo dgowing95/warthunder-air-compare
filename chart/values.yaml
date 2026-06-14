@@ -1,0 +1,60 @@
+# Default values are intentionally generic so the chart is reusable. Deployment
+# specifics (hostname, ingress class, TLS issuer, storage class) are supplied by
+# the values that override this file.
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/dgowing95/warthunder-air-compare
+  tag: latest
+  pullPolicy: Always
+
+# Seconds the scraper waits between wiki requests. The default paces a full
+# crawl of the catalogue across roughly a week.
+crawlDelay: "480"
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  host: ""
+  path: /
+  pathType: Prefix
+  tls:
+    enabled: false
+    secretName: ""
+
+# Persistent storage for the SQLite database shared by the web and scraper
+# containers.
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  storageClass: ""
+  size: 1Gi
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+scraperResources:
+  requests:
+    cpu: 25m
+    memory: 64Mi
+  limits:
+    cpu: 250m
+    memory: 192Mi
+
+podSecurityContext:
+  fsGroup: 1000
+
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000

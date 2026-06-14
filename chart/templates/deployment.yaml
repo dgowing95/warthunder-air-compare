@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "warthunder-air-compare.fullname" . }}
+  labels:
+    {{- include "warthunder-air-compare.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  # The web and scraper containers share one read/write SQLite volume, so the
+  # pod must not be replaced before its predecessor releases the volume.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "warthunder-air-compare.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "warthunder-air-compare.selectorLabels" . | nindent 8 }}
+    spec:
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: web
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args: ["web"]
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: WTAC_DB_PATH
+              value: /data/planes.db
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: data
+              mountPath: /data
+        - name: scraper
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args: ["scraper"]
+          env:
+            - name: WTAC_DB_PATH
+              value: /data/planes.db
+            - name: WTAC_CRAWL_DELAY
+              value: {{ .Values.crawlDelay | quote }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          resources:
+            {{- toYaml .Values.scraperResources | nindent 12 }}
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+        {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "warthunder-air-compare.fullname" . }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}

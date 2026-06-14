@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>War Thunder Air Compare</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>War Thunder Air Compare</h1>
+        <p class="tagline">Realistic Battles dogfight check</p>
+    </header>
+
+    <main>
+        <section class="panel" id="settings">
+            <label for="my-aircraft">Your aircraft</label>
+            <div class="autocomplete">
+                <input type="text" id="my-aircraft" placeholder="e.g. Lightning F.6"
+                       autocomplete="off">
+                <ul class="suggestions" id="my-suggestions" hidden></ul>
+            </div>
+            <p class="saved" id="my-saved"></p>
+        </section>
+
+        <section class="panel" id="lookup">
+            <label for="target-aircraft">Aircraft you've encountered</label>
+            <div class="autocomplete">
+                <input type="text" id="target-aircraft"
+                       placeholder="Type a name and press Enter" autocomplete="off">
+                <ul class="suggestions" id="target-suggestions" hidden></ul>
+            </div>
+        </section>
+
+        <section id="result" hidden></section>
+        <p class="message" id="message" hidden></p>
+    </main>
+
+    <footer>
+        <p>Stats sourced from the War Thunder wiki. Realistic Battles values only.</p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

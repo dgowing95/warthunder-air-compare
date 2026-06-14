@@ -1,0 +1,6 @@
+apiVersion: v2
+name: warthunder-air-compare
+description: Web app that compares War Thunder aircraft and rates dogfight odds
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
