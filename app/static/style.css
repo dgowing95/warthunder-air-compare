@@ -165,6 +165,10 @@ main {
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* Each panel sets backdrop-filter, which makes it its own stacking context; a
+   later panel would otherwise paint over this one's open suggestions dropdown. */
+.panel--ownship { z-index: 5; }
+
 /* ---- Inputs ---- */
 .autocomplete { position: relative; }
 input[type="text"] {
@@ -192,7 +196,7 @@ input[type="text"]:focus {
     padding: 0.25rem;
     position: absolute;
     left: 0; right: 0;
-    z-index: 20;
+    z-index: 50;
     background: #0c1411;
     border: 1px solid var(--line-bright);
     border-radius: 2px;
@@ -238,7 +242,10 @@ input[type="text"]:focus {
     display: flex;
     align-items: center;
     gap: 1rem;
+    margin-top: 0.9rem;
 }
+/* A bare display:flex would beat the [hidden] attribute, so hide explicitly. */
+.ownship-card[hidden] { display: none; }
 .ownship-card__img {
     width: 124px;
     height: 70px;

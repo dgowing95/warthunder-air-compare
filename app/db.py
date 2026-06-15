@@ -27,7 +27,7 @@ def _query(sql, params=()):
         conn.close()
 
 
-def search(term, limit=20):
+def search(term, limit=10):
     like = f"%{term}%"
     prefix = f"{term}%"
     rows = _query(
