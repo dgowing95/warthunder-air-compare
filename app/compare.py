@@ -99,6 +99,38 @@ def _summary(row):
     }
 
 
+def key_stats(row):
+    """Formatted headline stats for one aircraft, shared by the bracket table."""
+    speed = _representative(row, "max_speed", True)
+    turn = _representative(row, "turn_time", False)
+    climb = _representative(row, "climb_rate", True)
+    return {
+        "max_speed": _km_h(speed) if speed is not None else None,
+        "turn_time": _seconds(turn) if turn is not None else None,
+        "climb_rate": _m_s(climb) if climb is not None else None,
+        "armament": row.get("armament"),
+        "countermeasures": row.get("countermeasures"),
+    }
+
+
+def bracket(mine, opponents):
+    """Compare one aircraft against every opponent in its battle-rating bracket."""
+    rows = []
+    for opponent in opponents:
+        result = compare(mine, opponent)
+        rows.append({
+            **_summary(opponent),
+            "stats": key_stats(opponent),
+            "verdict": result["verdict"],
+            "score": result["score"],
+        })
+    rows.sort(key=lambda row: (row.get("br_rb") or 0, row.get("name") or ""))
+    return {
+        "mine": {**_summary(mine), "stats": key_stats(mine)},
+        "opponents": rows,
+    }
+
+
 def compare(mine, target):
     dimensions = []
     score = 0.0

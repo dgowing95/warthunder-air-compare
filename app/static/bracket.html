@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Air Compare — RB Threat Assessment</title>
+    <title>Air Compare — Bracket</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;500;600;700;800&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="wide">
     <div class="scanlines" aria-hidden="true"></div>
     <div class="grain" aria-hidden="true"></div>
 
@@ -30,8 +30,8 @@
     </header>
 
     <nav class="nav">
-        <a class="nav__link nav__link--active" href="/">1v1 Comparison</a>
-        <a class="nav__link" href="/bracket">Bracket Compare</a>
+        <a class="nav__link" href="/">1v1 Comparison</a>
+        <a class="nav__link nav__link--active" href="/bracket">Bracket Compare</a>
     </nav>
 
     <main>
@@ -56,18 +56,12 @@
             </div>
         </section>
 
-        <section class="panel panel--contact" id="lookup" style="--delay:.12s">
-            <div class="panel__tag">02 · Target</div>
-            <div class="autocomplete">
-                <input type="text" id="target-aircraft"
-                       placeholder="Identify contact — type a name, press Enter"
-                       autocomplete="off" spellcheck="false">
-                <ul class="suggestions" id="target-suggestions" hidden></ul>
-            </div>
+        <section class="panel panel--bracket" id="bracket-panel" style="--delay:.12s">
+            <div class="panel__tag">02 · Bracket</div>
+            <p class="panel__hint">Every aircraft within 1.0 BR of yours — the matchups you might fly into.</p>
+            <section id="result" hidden></section>
+            <p class="message" id="message" hidden></p>
         </section>
-
-        <section id="result" hidden></section>
-        <p class="message" id="message" hidden></p>
     </main>
 
     <footer>
@@ -75,6 +69,6 @@
     </footer>
 
     <script src="common.js"></script>
-    <script src="main.js"></script>
+    <script src="bracket.js"></script>
 </body>
 </html>

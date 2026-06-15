@@ -40,6 +40,31 @@ def search(term, limit=10):
     return [dict(row) for row in rows]
 
 
+def _br_range_clause(low, high, exclude):
+    sql = "FROM aircraft WHERE br_rb IS NOT NULL AND br_rb BETWEEN ? AND ?"
+    params = [low, high]
+    if exclude:
+        sql += " AND slug != ?"
+        params.append(exclude)
+    return sql, params
+
+
+def by_br_range(low, high, exclude=None, limit=None, offset=0):
+    clause, params = _br_range_clause(low, high, exclude)
+    sql = f"SELECT * {clause} ORDER BY br_rb, name"
+    if limit is not None:
+        sql += " LIMIT ? OFFSET ?"
+        params += [limit, offset]
+    rows = _query(sql, params)
+    return [dict(row) for row in rows]
+
+
+def count_br_range(low, high, exclude=None):
+    clause, params = _br_range_clause(low, high, exclude)
+    rows = _query(f"SELECT COUNT(*) AS total {clause}", params)
+    return rows[0]["total"] if rows else 0
+
+
 def get(identifier):
     rows = _query("SELECT * FROM aircraft WHERE slug = ?", (identifier,))
     if not rows:
